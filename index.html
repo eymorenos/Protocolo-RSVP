@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo RSVP en Redes MPLS</title>
+    <style>
+        /* General Reset */
+        body, h1, h2, p, button {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            background: linear-gradient(to bottom, #1c1c1c, #444);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        header {
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #00e676;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #b0bec5;
+        }
+
+        /* Presentation Layout */
+        .presentation {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .titles {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .step-button {
+            background: #212121;
+            border: 2px solid #03a9f4;
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            text-align: left;
+        }
+
+        .step-button:hover {
+            transform: scale(1.05);
+            border-color: #00e676;
+        }
+
+        /* Highlighted Title */
+        .step-button.active {
+            border-color: #ff5722;
+            animation: pulseHighlight 1.5s infinite ease-in-out;
+        }
+
+        /* Description Section */
+        .description {
+            flex: 2;
+            background: #212121;
+            border: 2px solid #03a9f4;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: borderGlow 1.5s infinite ease-in-out;
+        }
+
+        .description h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #00e676;
+        }
+
+        .description p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+        }
+
+        /* Arrows */
+        .arrows {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .arrow-button {
+            background: #03a9f4;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .arrow-button:hover {
+            background: #00e676;
+            transform: scale(1.2);
+        }
+
+        /* Animations */
+        @keyframes pulseHighlight {
+            0%, 100% {
+                border-color: #03a9f4;
+            }
+            50% {
+                border-color: #00e676;
+            }
+        }
+
+        @keyframes borderGlow {
+            0% {
+                border-color: #03a9f4;
+            }
+            50% {
+                border-color: #00e676;
+            }
+            100% {
+                border-color: #ff5722;
+            }
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #b0bec5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Protocolo RSVP en Redes MPLS</h1>
+        <p>Explorando el protocolo de señalización y su rol en QoS</p>
+    </header>
+    <main>
+        <section class="presentation">
+            <div class="titles" id="titles-container">
+                <button class="step-button" onclick="showStep(0)">Introducción</button>
+                <button class="step-button" onclick="showStep(1)">MPLS y RSVP</button>
+                <button class="step-button" onclick="showStep(2)">Mensajes PATH</button>
+                <button class="step-button" onclick="showStep(3)">Mensajes RESV</button>
+                <button class="step-button" onclick="showStep(4)">Reserva de Recursos</button>
+                <button class="step-button" onclick="showStep(5)">Mantenimiento</button>
+                <button class="step-button" onclick="showStep(6)">Liberación</button>
+                <button class="step-button" onclick="showStep(7)">Ventajas</button>
+                <button class="step-button" onclick="showStep(8)">Limitaciones</button>
+                <button class="step-button" onclick="showStep(9)">Conclusión</button>
+            </div>
+            <div id="dynamic-content" class="description">
+                <h2 id="step-title" class="animated-title">Selecciona un tema</h2>
+                <p id="step-description">Haz clic en uno de los títulos para explorar su descripción.</p>
+                <div class="arrows">
+                    <button onclick="navigate(-1)" class="arrow-button">&lt;</button>
+                    <button onclick="navigate(1)" class="arrow-button">&gt;</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Edwin Moreno</p>
+    </footer>
+    <script>
+        // Datos de las diapositivas
+        const steps = [
+            { title: "Introducción", description: "RSVP (Resource Reservation Protocol) se utiliza en redes MPLS para garantizar la calidad de servicio (QoS) al reservar recursos de red para aplicaciones críticas como VoIP y streaming de video." },
+            { title: "MPLS y RSVP", description: "En redes MPLS, RSVP actúa como un protocolo de señalización que ayuda a establecer Label Switched Paths (LSP) y gestionar recursos según las necesidades de QoS." },
+            { title: "Mensajes PATH", description: "Los mensajes PATH se envían desde el emisor al receptor para especificar los requisitos de recursos y reservar ancho de banda a lo largo del camino." },
+            { title: "Mensajes RESV", description: "Los mensajes RESV son enviados por el receptor al emisor, confirmando la reserva de recursos en cada nodo del trayecto." },
+            { title: "Reserva de Recursos", description: "RSVP asegura la disponibilidad de recursos como ancho de banda y buffers, esenciales para aplicaciones en tiempo real." },
+            { title: "Mantenimiento", description: "El protocolo utiliza mensajes de actualización periódicos (refresh) para mantener las reservas activas y prevenir su expiración." },
+            { title: "Liberación", description: "Una vez que la comunicación termina, RSVP libera los recursos reservados, optimizando el uso de la red." },
+            { title: "Ventajas", description: "RSVP garantiza QoS para aplicaciones críticas, mejora la eficiencia de las redes MPLS y permite una administración flexible de recursos." },
+            { title: "Limitaciones", description: "RSVP requiere recursos adicionales para señalización, lo que puede aumentar la complejidad en redes grandes." },
+            { title: "Conclusión", description: "RSVP es una herramienta clave en redes MPLS para garantizar QoS, especialmente en entornos donde las aplicaciones críticas dependen de la fiabilidad y el rendimiento de la red." }
+        ];
+
+        let currentStep = 0;
+
+        // Mostrar una diapositiva específica
+        function showStep(index) {
+            currentStep = index;
+            updateContent();
+        }
+
+        // Navegar entre diapositivas
+        function navigate(direction) {
+            currentStep += direction;
+            if (currentStep < 0) currentStep = steps.length - 1;
+            if (currentStep >= steps.length) currentStep = 0;
+            updateContent();
+        }
+
+        // Actualizar el contenido de la descripción y resaltar el título
+        function updateContent() {
+            const titles = document.querySelectorAll('.step-button');
+            const contentSection = document.getElementById('dynamic-content');
+            const title = document.getElementById('step-title');
+            const description = document.getElementById('step-description');
+
+            // Actualizar contenido descriptivo
+            title.textContent = steps[currentStep].title;
+            description.textContent = steps[currentStep].description;
+
+            // Resaltar título activo
+            titles.forEach((button, index) => {
+                if (index === currentStep) {
+                    button.classList.add('active');
+                } else {
+                                       button.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
